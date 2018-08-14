@@ -23,27 +23,26 @@
 
         </style>
     </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
-                </div>
-            @endif
+    <body >
+    <div id="app">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-            <div class="content">
-                <div class="title m-b-md">
-                        <div id="app">
-                    <example-component></example-component>
-                        </div>
-                </div>
-           </div>
-        </div>
-        <script src="{{ asset('js/app.js') }}"></script>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      
+      <li class="nav-item">
+        <router-link to="/example">Example</router-link>
+        <router-link to="/sample">Sample</router-link>
+      </li>
+      
+  </div>
+</nav>
+    <router-view></router-view>
+    </div>
+    <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>
