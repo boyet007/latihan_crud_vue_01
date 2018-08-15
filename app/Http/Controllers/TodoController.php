@@ -43,7 +43,11 @@ class TodoController extends Controller
      */
     public function store(TodoRequest $request)
     {
-        //
+        $todo = Todo::create($request->all());
+        if ($todo) {
+            $tasks = Todo::orderBy('created_at', 'desc')->paginate(5);
+            return request()->json(200, $tasks);
+        }
     }
 
     /**
