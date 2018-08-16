@@ -46,13 +46,14 @@ export default {
                 .then(data => {
                     //emit untuk trigger event di component yang lain...
                     this.$emit('recordadded', data);
+                    this.record = '';
                     this.success = "Tasks Added Successfully!!!";
                 })
                 .catch(error => {
                     this.errors = error.response.data.errors;
                     //console.log(this.error);
                 });
-                this.record = '';
+                
             },
             clearModal() {
                  this.errors = [];

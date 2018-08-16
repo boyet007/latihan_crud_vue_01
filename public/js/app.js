@@ -50974,12 +50974,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (data) {
                 //emit untuk trigger event di component yang lain...
                 _this.$emit('recordadded', data);
+                _this.record = '';
                 _this.success = "Tasks Added Successfully!!!";
             }).catch(function (error) {
                 _this.errors = error.response.data.errors;
                 //console.log(this.error);
             });
-            this.record = '';
         },
         clearModal: function clearModal() {
             this.errors = [];
