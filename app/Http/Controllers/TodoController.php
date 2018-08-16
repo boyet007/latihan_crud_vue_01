@@ -58,7 +58,7 @@ class TodoController extends Controller
      */
     public function show(Todo $todo)
     {
-        //
+        return request()->json(200, $todo);
     }
 
     /**
@@ -69,7 +69,7 @@ class TodoController extends Controller
      */
     public function edit(Todo $todo)
     {
-        //
+       
     }
 
     /**
@@ -83,7 +83,7 @@ class TodoController extends Controller
      //ganti Request dengan TodoRequest -> untuk validasi
     public function update(TodoRequest $request, Todo $todo)
     {
-
+        
     }
 
     /**
