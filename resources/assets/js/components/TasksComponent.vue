@@ -37,12 +37,12 @@ Vue.component('addtask', require('./addModalComponent.vue'));
     export default {
         data() {
             return {
-                tasks: {}
+                tasks: {},
             }
         }, 
         methods: {
             getResults(page = 1) {
-			axios.get('http://localhost:8000/todo?page=' + page)
+			axios.get('http://192.168.1.61/todo?page=' + page)
 				.then((response) =>this.tasks = response.data)
                 .catch((error) => console.log(error));
             },
@@ -51,7 +51,7 @@ Vue.component('addtask', require('./addModalComponent.vue'));
             }
         },
     created(){
-        axios.get('http://localhost:8000/todo')
+        axios.get('http://192.168.1.61/todo')
         .then((response) => {this.tasks = response.data; })
         .catch((error) => console.log(error));
     } 
