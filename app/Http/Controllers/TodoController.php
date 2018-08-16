@@ -19,8 +19,7 @@ class TodoController extends Controller
         // $tasks = Todo::all();
         // return request()->json(200, $tasks);
 
-        $tasks = Todo::orderBy('created_at', 'desc')->paginate(5);
-        return request()->json(200, $tasks);
+        return $this->_getRecord();
 
 
     }
@@ -45,8 +44,7 @@ class TodoController extends Controller
     {
         $todo = Todo::create($request->all());
         if ($todo) {
-            $tasks = Todo::orderBy('created_at', 'desc')->paginate(5);
-            return request()->json(200, $tasks);
+            return $this->_getRecord();
         }
     }
 
@@ -58,7 +56,7 @@ class TodoController extends Controller
      */
     public function show(Todo $todo)
     {
-        return request()->json(200, $todo);
+       
     }
 
     /**
@@ -69,7 +67,7 @@ class TodoController extends Controller
      */
     public function edit(Todo $todo)
     {
-       
+        return request()->json(200, $todo);
     }
 
     /**
@@ -81,9 +79,12 @@ class TodoController extends Controller
      */
 
      //ganti Request dengan TodoRequest -> untuk validasi
-    public function update(TodoRequest $request, Todo $todo)
+    public function update(TodoRequest $request, Todo $task)
     {
-        
+        $task->name = $request->name;
+        if($task->save()) {
+           return $this->_getRecord();
+        }
     }
 
     /**
@@ -95,5 +96,10 @@ class TodoController extends Controller
     public function destroy(Todo $todo)
     {
         //
+    }
+
+    private function _getRecord() {
+        $tasks = Todo::orderBy('created_at', 'desc')->paginate(10);
+        return request()->json(200, $tasks);
     }
 }

@@ -41,9 +41,9 @@ export default {
         },
         methods: {
             updateRecord() {
-                axios.put('http://192.168.1.61/todo' + this.rec.id, {
+                axios.post('http://127.0.0.1:8000/todo/' + this.rec.id, {
                     'name' : this.rec.name,
-                    'method' : 'PUT'
+                    '_method' : 'PUT'
                 })
                 .then(data => {
                     this.$emit('recordUpdated', data);

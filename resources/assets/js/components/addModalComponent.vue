@@ -40,13 +40,14 @@ export default {
         },
         methods: {
             addRecord(){
-                axios.post('http://192.168.1.61/todo', {
+                axios.post('http://127.0.0.1:8000/todo', {
                     'name' : this.record
                 })
                 .then(data => {
                     //emit untuk trigger event di component yang lain...
                     this.$emit('recordadded', data);
                     this.record = '';
+                    this.errors =  [];
                     this.success = "Tasks Added Successfully!!!";
                 })
                 .catch(error => {

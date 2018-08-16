@@ -30,7 +30,7 @@
     <div id="modal">
         <!-- recordadded dari addtask component -->
         <addtask @recordadded="refreshRecord"></addtask>
-        <edittask :rec="editRec" ></edittask>
+        <edittask :rec="editRec" @recordUpdated="refreshRecord" ></edittask>
     </div>
 </div>
 </template>
@@ -50,7 +50,7 @@ Vue.component('edittask', require('./editModalComponent.vue'));
         }, 
         methods: {
             getResults(page = 1) {
-			axios.get('http://192.168.1.61/todo?page=' + page)
+			axios.get('http://127.0.0.1:8000/todo?page=' + page)
 				.then((response) =>this.tasks = response.data)
                 .catch((error) => console.log(error));
             },
@@ -58,14 +58,14 @@ Vue.component('edittask', require('./editModalComponent.vue'));
                 this.tasks = record.data
             }, 
             getRecord(id) {
-                axios.get('http://192.168.1.61/todo/' + id)
+                axios.get('http://127.0.0.1:8000/todo/' + id + '/edit')
                 .then( response => this.editRec = response.data)
                 .catch( error => this.errors = error.response.data.errors)
             }
             
         },
     created(){
-        axios.get('http://192.168.1.61/todo')
+        axios.get('http://127.0.0.1:8000/todo')
         .then((response) => {this.tasks = response.data; })
         .catch((error) => console.log(error));
     } 
