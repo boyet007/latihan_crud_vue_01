@@ -5,13 +5,16 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class=" bg-info text-white card-header">
-                        <h4>All Todo Tasks <span>
-                            <button class="btn btn-success float-right" data-toggle="modal" href="#addModal">+</button>
-                            </span></h4>
-                                
-                            </div>
-
+                        <h4>All Todo Tasks 
+                            <span>
+                                <button class="btn btn-success float-right" data-toggle="modal" href="#addModal">
+                                    +
+                                </button>
+                            </span>
+                        </h4>            
+                     </div>
                     <div class="card-body">
+                        <input type="search" v-model="search" class="form-control" @keyup="searchRecord">
                         <ul class="list-group">  
                             <li v-for="t in tasks.data" class="list-group-item">{{ t.id }} ~ {{ t.name }} 
                                 <span class="float-right">
@@ -50,14 +53,15 @@ Vue.component('viewtask', require('./viewModalComponent.vue'));
                 tasks: {},
                 records: {},
                 editRec: {},
-                errors: []
+                errors: [],
+                search: ''
             }
         }, 
         methods: {
             getResults(page = 1) {
-			axios.get('/todo?page=' + page)
-				.then((response) =>this.tasks = response.data)
-                .catch((error) => console.log(error));
+			    axios.get('/todo?page=' + page)
+                    .then((response) =>this.tasks = response.data)
+                    .catch((error) => console.log(error));
             },
             refreshRecord(record) {
                 console.log(record);
@@ -68,7 +72,7 @@ Vue.component('viewtask', require('./viewModalComponent.vue'));
                 .then( response => this.editRec = response.data )
                 .catch( error => this.errors = error.response.data.errors )
             },
-            delRecord(id){
+            delRecord(id) {
                 const reply = confirm('Are You sure, you want to delete this record ?');
                 if (reply) {
                     axios.delete('/todo/' + id)
@@ -76,6 +80,16 @@ Vue.component('viewtask', require('./viewModalComponent.vue'));
                     .catch( error => this.errors = error.response.data.errors)
                 } else {
                     return
+                }
+            },
+            searchRecord() {
+                if(this.search.length >= 3) {
+                    axios.get('/todo/search/' + this.search)
+                    //.then(response => console.log(response))
+                    .then(response => this.tasks = response.data)
+                    .catch(err => console.log(err))
+                } else {
+                    this.getResults()
                 }
             } 
         },

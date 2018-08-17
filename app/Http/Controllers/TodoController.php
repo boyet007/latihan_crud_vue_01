@@ -14,8 +14,13 @@ class TodoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index( $term = null )
     {
+
+        if ($term != null ) {
+            $task['data'] = Todo::where('name', 'like', '%' .$term. '%')->get();
+            return request() -> json(200, $task);
+        }
         return $this->_getRecord();
     }
 

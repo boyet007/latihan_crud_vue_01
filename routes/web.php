@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 
 Route::resource('todo', 'TodoController');
+Route::get('todo/search/{term?}', 'TodoController@index');
