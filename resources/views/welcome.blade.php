@@ -35,8 +35,8 @@
     <ul class="navbar-nav ml-auto">
       
       <li class="nav-item">
-        <router-link to="/example">Example</router-link>
-        <router-link to="/sample">Sample</router-link>
+        <router-link to="/example">About</router-link>
+        <router-link to="/sample">Contact</router-link>
       </li>
       
   </div>

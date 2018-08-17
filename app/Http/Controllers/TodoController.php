@@ -16,13 +16,7 @@ class TodoController extends Controller
      */
     public function index()
     {
-        // $tasks = Todo::all();
-        // return request()->json(200, $tasks);
-
-        $tasks = Todo::orderBy('created_at', 'desc')->paginate(5);
-        return request()->json(200, $tasks);
-
-
+        return $this->_getRecord();
     }
 
     /**
@@ -44,9 +38,9 @@ class TodoController extends Controller
     public function store(TodoRequest $request)
     {
         $todo = Todo::create($request->all());
+
         if ($todo) {
-            $tasks = Todo::orderBy('created_at', 'desc')->paginate(5);
-            return request()->json(200, $tasks);
+            return $this->_getRecord();
         }
     }
 
@@ -56,9 +50,10 @@ class TodoController extends Controller
      * @param  \App\Todo  $todo
      * @return \Illuminate\Http\Response
      */
-    public function show(Todo $todo)
+    public function show($id)
     {
-        return request()->json(200, $todo);
+        $todo = Todo::findOrFail($id);
+        return $todo;
     }
 
     /**
@@ -67,9 +62,10 @@ class TodoController extends Controller
      * @param  \App\Todo  $todo
      * @return \Illuminate\Http\Response
      */
-    public function edit(Todo $todo)
+    public function edit(Todo $task, $id)
     {
-       
+        $task = Todo::findOrFail($id);
+        return request()->json(200, $task);
     }
 
     /**
@@ -81,9 +77,14 @@ class TodoController extends Controller
      */
 
      //ganti Request dengan TodoRequest -> untuk validasi
-    public function update(TodoRequest $request, Todo $todo)
+    public function update(TodoRequest $request, $id)
     {
-        
+        $task = Todo::findOrFail($id);
+        $task->update($request->all());
+
+        if ($task) {  
+            return $this->_getRecord();
+        } 
     }
 
     /**
@@ -92,8 +93,16 @@ class TodoController extends Controller
      * @param  \App\Todo  $todo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Todo $todo)
+    public function destroy($id)
     {
-        //
+        $task = Todo::findOrFail($id);
+       if ($task->delete()) return $this->_getRecord();
+       else return response()->json(425, ['delete' => 'error deleting record']);
+
+    }
+
+    private function _getRecord() {
+        $tasks = Todo::orderBy('created_at', 'desc')->paginate(10);
+        return request()->json(200, $tasks);
     }
 }

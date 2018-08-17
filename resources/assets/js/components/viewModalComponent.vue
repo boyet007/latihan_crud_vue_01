@@ -5,17 +5,18 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add New Record!</h5>
+                    <h5 class="modal-title">Show single task : {{ viewRec.id }}
+                    </h5>
                     <button class="close"  type="button" data-dismiss="modal">&times;</button>
                     
                 </div>
             
             <div class="modal-body">
-                    <label for="name">View Task</label>
-                    <p name="name" id="name" cols="30" v-model="rec.name" rows="5" class="form-control"></p>
+                    <h6><b>View Task</b></h6>
+                    <p id="name">{{ viewRec.name }}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" @click="clearModal" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -26,7 +27,7 @@
 <script>
 
 export default {
-        props: ['rec'],
+        props: ['viewRec'],
        
     }
 

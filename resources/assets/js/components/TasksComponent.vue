@@ -17,7 +17,7 @@
                                 <span class="float-right">
                                     <a href="#editModal" @click="getRecord(t.id)" data-toggle="modal" class="btn btn-primary">Edit</a> |    
                                     <button @click="delRecord(t.id)" class="btn btn-info">Delete</button> | 
-                                    <a class="btn btn-warning" href="#viewModal" data-toggle="modal" data>Preview</a> </span></li>
+                                    <a class="btn btn-warning" @click="getRecord(t.id)" href="#viewModal" data-toggle="modal" data>Preview</a> </span></li>
                         </ul>
                        <pagination :data="tasks" @pagination-change-page="getResults"></pagination>
                     </div>
@@ -30,7 +30,8 @@
     <div id="modal">
         <!-- recordadded dari addtask component -->
         <addtask @recordadded="refreshRecord"></addtask>
-        <edittask :rec="editRec" ></edittask>
+        <edittask :rec="editRec" @recordUpdated="refreshRecord" ></edittask>
+        <viewtask :viewRec="editRec"></viewtask>
     </div>
 </div>
 </template>
@@ -39,6 +40,10 @@
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('addtask', require('./addModalComponent.vue'));
 Vue.component('edittask', require('./editModalComponent.vue'));
+Vue.component('viewtask', require('./viewModalComponent.vue'));
+                                     
+
+
     export default {
         data() {
             return {
@@ -50,22 +55,32 @@ Vue.component('edittask', require('./editModalComponent.vue'));
         }, 
         methods: {
             getResults(page = 1) {
-			axios.get('http://192.168.1.61/todo?page=' + page)
+			axios.get('/todo?page=' + page)
 				.then((response) =>this.tasks = response.data)
                 .catch((error) => console.log(error));
             },
             refreshRecord(record) {
+                console.log(record);
                 this.tasks = record.data
             }, 
             getRecord(id) {
-                axios.get('http://192.168.1.61/todo/' + id)
-                .then( response => this.editRec = response.data)
-                .catch( error => this.errors = error.response.data.errors)
-            }
-            
+                axios.get('/todo/' + id)
+                .then( response => this.editRec = response.data )
+                .catch( error => this.errors = error.response.data.errors )
+            },
+            delRecord(id){
+                const reply = confirm('Are You sure, you want to delete this record ?');
+                if (reply) {
+                    axios.delete('/todo/' + id)
+                    .then (response => this.refreshRecord(response))
+                    .catch( error => this.errors = error.response.data.errors)
+                } else {
+                    return
+                }
+            } 
         },
     created(){
-        axios.get('http://192.168.1.61/todo')
+        axios.get('/todo')
         .then((response) => {this.tasks = response.data; })
         .catch((error) => console.log(error));
     } 
