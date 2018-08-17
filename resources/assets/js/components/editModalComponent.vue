@@ -31,19 +31,19 @@
 <script>
 
 export default {
+    //data props dari parent.. (taskkomponent)
         props: ['rec'],
         data() {
             return {
                 success: '',
-                errors: []
-                
+                errors: [], 
+                record:'',
             }
         },
         methods: {
             updateRecord() {
-                axios.post('http://127.0.0.1:8000/todo/' + this.rec.id, {
-                    'name' : this.rec.name,
-                    '_method' : 'PUT'
+                axios.patch('/todo/' + this.rec.id, {
+                    'name' : this.rec.name
                 })
                 .then(data => {
                     this.$emit('recordUpdated', data);
